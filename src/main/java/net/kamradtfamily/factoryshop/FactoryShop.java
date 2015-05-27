@@ -50,9 +50,9 @@ public interface FactoryShop {
      * // todo adding process may add needed roles, making this method obsolete
      * // todo add assignments that allocate a person of the role to the shop
      * 
-     * @param role the name of the role to add
+     * @param role the role to add
      */
-    void addRole(String role);
+    void addRole(Role role);
 
     /**
      *
@@ -61,9 +61,9 @@ public interface FactoryShop {
      * // todo removing process may remove uneccessary roles, making this method obsolete
      * // todo add assignments that remove a person of the role to the shop
      * 
-     * @param role the name of the role to delete
+     * @param role the role to delete
      */
-    void deleteRole(String role);
+    void deleteRole(Role role);
 
     /**
      *
@@ -73,7 +73,7 @@ public interface FactoryShop {
      * 
      * @return the list of roles that are currently added to this shop
      */
-    String [] getRoles();
+    Role [] getRoles();
 
     /**
      *
@@ -82,9 +82,9 @@ public interface FactoryShop {
      * // todo add process may add machines, (assuming they are portable) making this method obsolete
      * // todo add assignments that allocates a unique portable machine to the shop
      * 
-     * @param machine the name of the machine to add
+     * @param machine the machine to add
      */
-    void addMachine(String machine);
+    void addMachine(Machine machine);
 
     /**
      *
@@ -95,7 +95,7 @@ public interface FactoryShop {
      * 
      * @param machine
      */
-    void deleteMachine(String machine);
+    void deleteMachine(Machine machine);
 
     /**
      *
@@ -103,9 +103,9 @@ public interface FactoryShop {
      * 
      * // todo return a list of unique portable machines this shop has
      * 
-     * @return the names of the machines needed by this shop
+     * @return the machines needed by this shop
      */
-    String [] getMachines();
+    Machine [] getMachines();
 
     /**
      *
@@ -115,7 +115,7 @@ public interface FactoryShop {
      * 
      * @param process the name of the process to add
      */
-    void addProcess(String process);
+    void addProcess(Process process);
 
     /**
      *
@@ -123,7 +123,7 @@ public interface FactoryShop {
      * 
      * @param process the name of the process to remove
      */
-    void deleteProcess(String process);
+    void deleteProcess(Process process);
 
     /**
      *
@@ -133,7 +133,7 @@ public interface FactoryShop {
      * 
      * @return
      */
-    String [] getProcesses();
+    Process [] getProcesses();
 
     /**
      *
@@ -141,9 +141,9 @@ public interface FactoryShop {
      * name of a process, but the item is the id of a unique object, and the 
      * process may change the attributes of the item.
      * 
-     * @param process the name of a process
-     * @param item the id of a unique object.
+     * @param process the process
+     * @param item the unique object.
      */
-    void runProcessOnItem(String process, String item);
+    void runProcessOnItem(Process process, Item item);
     
 }

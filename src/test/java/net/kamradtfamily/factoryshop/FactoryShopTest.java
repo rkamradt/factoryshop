@@ -17,7 +17,6 @@
 package net.kamradtfamily.factoryshop;
 
 import java.util.Arrays;
-import java.util.function.Predicate;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -70,10 +69,10 @@ public class FactoryShopTest {
     @Test
     public void testAddRole() {
         System.out.println("addRole");
-        final String role = "role1";
+        final Role role = new Role.Builder("role1").build();
         instance.addRole(role);
-        String [] roles = instance.getRoles();
-        assertTrue(Arrays.stream(roles).anyMatch((String t) -> t.equals(role)));
+        Role [] roles = instance.getRoles();
+        assertTrue(Arrays.stream(roles).anyMatch((t) -> t.equals(role)));
     }
 
     /**
@@ -81,15 +80,15 @@ public class FactoryShopTest {
      */
     @Test
     public void testDeleteRole() {
-        final String role = "role1";
+        final Role role = new Role.Builder("role1").build();
         instance.addRole(role);
-        instance.addRole("role2");
-        instance.addRole("role3");
-        String [] roles = instance.getRoles();
-        assertTrue(Arrays.stream(roles).anyMatch((String t) -> t.equals(role)));
+        instance.addRole(new Role.Builder("role2").build());
+        instance.addRole(new Role.Builder("role3").build());
+        Role [] roles = instance.getRoles();
+        assertTrue(Arrays.stream(roles).anyMatch((t) -> t.equals(role)));
         instance.deleteRole(role);
         roles = instance.getRoles();
-        assertTrue(!Arrays.stream(roles).anyMatch((String t) -> t.equals(role)));
+        assertTrue(!Arrays.stream(roles).anyMatch((t) -> t.equals(role)));
     }
 
     /**
@@ -98,17 +97,17 @@ public class FactoryShopTest {
     @Test
     public void testGetRoles() {
         System.out.println("getRoles");
-        instance.addRole("role1");
-        instance.addRole("role2");
-        instance.addRole("role3");
-        instance.addRole("role4");
-        instance.addRole("role5");
-        String[] result = instance.getRoles();
+        instance.addRole(new Role.Builder("role1").build());
+        instance.addRole(new Role.Builder("role2").build());
+        instance.addRole(new Role.Builder("role3").build());
+        instance.addRole(new Role.Builder("role4").build());
+        instance.addRole(new Role.Builder("role5").build());
+        Role[] result = instance.getRoles();
         assertEquals(5, result.length);
-        instance.addRole("role5"); // cant add role twice (more than one person can be needed with that role)
+        instance.addRole(new Role.Builder("role1").build()); // cant add role twice (more than one person can be needed with that role)
         result = instance.getRoles();
         assertEquals(5, result.length);
-        instance.deleteRole("role5");
+        instance.deleteRole(result[0]);
         result = instance.getRoles();
         assertEquals(4, result.length);
     }
@@ -119,10 +118,10 @@ public class FactoryShopTest {
     @Test
     public void testAddMachine() {
         System.out.println("addMachine");
-        String machine = "machine1";
+		Machine machine = new Machine.Builder("machine1").build();
         instance.addMachine(machine);
-        String [] machines = instance.getMachines();
-        assertTrue(Arrays.stream(machines).anyMatch((String t) -> t.equals(machine)));
+        Machine [] machines = instance.getMachines();
+        assertTrue(Arrays.stream(machines).anyMatch((t) -> t.equals(machine)));
     }
 
     /**
@@ -131,15 +130,18 @@ public class FactoryShopTest {
     @Test
     public void testDeleteMachine() {
         System.out.println("deleteMachine");
-        String machine = "machine1";
+        String machine1name = "machine1";
+        String machine2name = "machine2";
+        String machine3name = "machine3";
+		Machine machine = new Machine.Builder(machine1name).build();
         instance.addMachine(machine);
-        instance.addMachine("machine2");
-        instance.addMachine("machine3");
-        String [] machines = instance.getMachines();
-        assertTrue(Arrays.stream(machines).anyMatch((String t) -> t.equals(machine)));
+        instance.addMachine(new Machine.Builder(machine2name).build());
+        instance.addMachine(new Machine.Builder(machine3name).build());
+        Machine [] machines = instance.getMachines();
+        assertTrue(Arrays.stream(machines).anyMatch((t) -> t.getName().equals(machine1name)));
         instance.deleteMachine(machine);
         machines = instance.getMachines();
-        assertTrue(!Arrays.stream(machines).anyMatch((String t) -> t.equals(machine)));
+        assertTrue(!Arrays.stream(machines).anyMatch((t) -> t.getName().equals(machine)));
     }
 
     /**
@@ -148,17 +150,17 @@ public class FactoryShopTest {
     @Test
     public void testGetMachines() {
         System.out.println("getMachines");
-        instance.addMachine("machine1");
-        instance.addMachine("machine2");
-        instance.addMachine("machine3");
-        instance.addMachine("machine4");
-        instance.addMachine("machine5");
-        String[] result = instance.getMachines();
+        instance.addMachine(new Machine.Builder("machine1").build());
+        instance.addMachine(new Machine.Builder("machine2").build());
+        instance.addMachine(new Machine.Builder("machine3").build());
+        instance.addMachine(new Machine.Builder("machine4").build());
+        instance.addMachine(new Machine.Builder("machine5").build());
+        Machine[] result = instance.getMachines();
         assertEquals(5, result.length);
-        instance.addMachine("machine5"); // cant add machine twice (more than one instance of that machine can be needed)
+        instance.addMachine(new Machine.Builder("machine5").build()); // cant add machine twice (more than one instance of that machine can be needed)
         result = instance.getMachines();
         assertEquals(5, result.length);
-        instance.deleteMachine("machine5");
+        instance.deleteMachine(result[0]);
         result = instance.getMachines();
         assertEquals(4, result.length);
     }
@@ -169,10 +171,10 @@ public class FactoryShopTest {
     @Test
     public void testAddProcess() {
         System.out.println("addProcess");
-        String process = "process1";
+        Process process = new Process.Builder("process1").build();
         instance.addProcess(process);
-        String [] processs = instance.getProcesses();
-        assertTrue(Arrays.stream(processs).anyMatch((String t) -> t.equals(process)));
+        Process [] processs = instance.getProcesses();
+        assertTrue(Arrays.stream(processs).anyMatch((t) -> t.equals(process)));
     }
 
     /**
@@ -181,15 +183,15 @@ public class FactoryShopTest {
     @Test
     public void testDeleteProcess() {
         System.out.println("deleteProcess");
-        String process = "process1";
+        Process process = new Process.Builder("process1").build();
         instance.addProcess(process);
-        instance.addProcess("process2");
-        instance.addProcess("process3");
-        String [] processes = instance.getProcesses();
-        assertTrue(Arrays.stream(processes).anyMatch((String t) -> t.equals(process)));
+        instance.addProcess(new Process.Builder("process2").build());
+        instance.addProcess(new Process.Builder("process3").build());
+        Process [] processes = instance.getProcesses();
+        assertTrue(Arrays.stream(processes).anyMatch((t) -> t.equals(process)));
         instance.deleteProcess(process);
         processes = instance.getProcesses();
-        assertTrue(!Arrays.stream(processes).anyMatch((String t) -> t.equals(process)));
+        assertTrue(!Arrays.stream(processes).anyMatch((t) -> t.equals(process)));
     }
 
     /**
@@ -198,17 +200,17 @@ public class FactoryShopTest {
     @Test
     public void testGetProcesses() {
         System.out.println("getProcesses");
-        instance.addProcess("process1");
-        instance.addProcess("process2");
-        instance.addProcess("process3");
-        instance.addProcess("process4");
-        instance.addProcess("process5");
-        String[] result = instance.getProcesses();
+        instance.addProcess(new Process.Builder("process1").build());
+        instance.addProcess(new Process.Builder("process2").build());
+        instance.addProcess(new Process.Builder("process3").build());
+        instance.addProcess(new Process.Builder("process4").build());
+        instance.addProcess(new Process.Builder("process5").build());
+        Process[] result = instance.getProcesses();
         assertEquals(5, result.length);
-        instance.addProcess("process5"); // cant add process twice
+        instance.addProcess(new Process.Builder("process1").build()); // cant add process twice
         result = instance.getProcesses();
         assertEquals(5, result.length);
-        instance.deleteProcess("process5");
+        instance.deleteProcess(result[0]);
         result = instance.getProcesses();
         assertEquals(4, result.length);
     }
@@ -219,16 +221,16 @@ public class FactoryShopTest {
     @Test
     public void testRunProcessOnItem() {
         System.out.println("runProcessOnItem");
-        instance.addProcess("process");
-        String process = "process";
-        String item = "id";
+        Process process = new Process.Builder("process1").build();
+        instance.addProcess(process);
+        Item item = new Item.Builder("item1").build();
         instance.runProcessOnItem(process, item); // cant test until process and item are better defined
         try {
-            process = "unknown process"; // can test that the process exists to actually run
+            process = new Process.Builder("unknown process").build(); // can test that the process exists to actually run
             instance.runProcessOnItem(process, item);
             fail("expected exception not thrown");
         } catch(IllegalStateException ex) {
-            assertEquals("no processes name unknown process exist at this shop", ex.getMessage());
+            assertEquals("no processes named unknown process exist at this shop", ex.getMessage());
         }
     }
     

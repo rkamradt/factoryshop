@@ -25,9 +25,9 @@ import java.util.TreeSet;
  */
 public class FactoryShopImpl implements FactoryShop {
     private final String name;
-    private final Set<String> roles = new TreeSet<>();
-    private final Set<String> machines = new TreeSet<>();
-    private final Set<String> processes = new TreeSet<>();
+    private final Set<Role> roles = new TreeSet<>();
+    private final Set<Machine> machines = new TreeSet<>();
+    private final Set<Process> processes = new TreeSet<>();
     public FactoryShopImpl(String name) {
         this.name = name;
     }
@@ -38,54 +38,54 @@ public class FactoryShopImpl implements FactoryShop {
     }
 
     @Override
-    public void addRole(String role) {
+    public void addRole(Role role) {
         roles.add(role);
     }
 
     @Override
-    public void deleteRole(String role) {
+    public void deleteRole(Role role) {
         roles.remove(role);
     }
 
     @Override
-    public String[] getRoles() {
-        return roles.toArray(new String[roles.size()]);
+    public Role[] getRoles() {
+        return roles.toArray(new Role[roles.size()]);
     }
 
     @Override
-    public void addMachine(String machine) {
+    public void addMachine(Machine machine) {
         machines.add(machine);
     }
 
     @Override
-    public void deleteMachine(String machine) {
+    public void deleteMachine(Machine machine) {
         machines.remove(machine);
     }
 
     @Override
-    public String[] getMachines() {
-        return machines.toArray(new String[machines.size()]);
+    public Machine[] getMachines() {
+        return machines.toArray(new Machine[machines.size()]);
     }
 
     @Override
-    public void addProcess(String process) {
+    public void addProcess(Process process) {
         processes.add(process);
     }
 
     @Override
-    public void deleteProcess(String process) {
+    public void deleteProcess(Process process) {
         processes.remove(process);
     }
 
     @Override
-    public String[] getProcesses() {
-        return processes.toArray(new String[processes.size()]);
+    public Process[] getProcesses() {
+        return processes.toArray(new Process[processes.size()]);
     }
 
     @Override
-    public void runProcessOnItem(String process, String item) {
+    public void runProcessOnItem(Process process, Item item) {
         if(!processes.contains(process)) {
-            throw new IllegalStateException("no processes name " + process + " exist at this shop");
+            throw new IllegalStateException("no processes named " + process.getName() + " exist at this shop");
         }
         // cannot fully implement untill processes and items are better defined
     }
